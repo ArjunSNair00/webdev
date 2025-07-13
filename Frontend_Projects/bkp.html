@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Generator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #emoji_gen {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .left {
+      text-align: center;
+    }
+
+    h1 {
+      color: #d81b60;
+      margin-bottom: 20px;
+    }
+
+    #emoji img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease;
+    }
+
+    #emoji img:hover {
+      transform: scale(1.1);
+    }
+
+    button {
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #ad1457;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #probDisplay {
+      font-weight: bold;
+      min-width: 40px;
+    }
+
+    input[type="range"] {
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="emoji_gen">
+    <div class="left">
+      <h1>Emoji Generator</h1>
+      <div id="emoji"><img id="emojiImg" src="emojis/1.png" alt="emoji"></div>
+      <button id="generateBtn">Click here</button>
+    </div>
+
+    <div class="right">
+      <div class="slider-container">
+        <label for="probInput">Probability for this emoji (0% - 100%):</label>
+        <div class="slider-wrapper">
+          <input type="range" id="probInput" min="0" max="100" step="1" value="12.5">
+          <span id="probDisplay">12.5%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const emojiIds = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
+    const weights = Array(8).fill(12.5); // Default equal probabilities
+    let currentIndex = 0;
+
+    const emojiImg = document.getElementById("emojiImg");
+    const probSlider = document.getElementById("probInput");
+    const probDisplay = document.getElementById("probDisplay");
+
+    function updateDisplayedEmoji(index) {
+      currentIndex = index;
+      emojiImg.src = `emojis/${emojiIds[index]}.png`;
+      probSlider.value = weights[index];
+      probDisplay.textContent = weights[index].toFixed(1) + '%';
+    }
+
+    function getUpdatedWeights() {
+      const val = parseFloat(probSlider.value);
+
+      if (val === 100) {
+        // Set all others to 0 if this one is 100
+        weights.fill(0);
+        weights[currentIndex] = 100;
+      } else {
+        weights[currentIndex] = isNaN(val) || val < 0 ? 0 : val;
+      }
+    }
+
+    function weightedRandomIndex(percentages) {
+      const max = Math.max(...percentages);
+
+      // Force emoji with 100% to be selected
+      if (max === 100) {
+        return percentages.indexOf(100);
+      }
+
+      const total = percentages.reduce((a, b) => a + b, 0);
+      if (total <= 0) return 0;
+
+      const rand = Math.random() * total;
+      let sum = 0;
+      for (let i = 0; i < percentages.length; i++) {
+        sum += percentages[i];
+        if (rand < sum) return i;
+      }
+      return 0;
+    }
+
+    function randomize() {
+      getUpdatedWeights();
+      const index = weightedRandomIndex(weights);
+      updateDisplayedEmoji(index);
+    }
+
+    probSlider.addEventListener("input", () => {
+      probDisplay.textContent = probSlider.value + '%';
+    });
+
+    document.getElementById("generateBtn").addEventListener("click", randomize);
+
+    // Initial display
+    updateDisplayedEmoji(0);
+  </script>
+
+</body>
+</html>

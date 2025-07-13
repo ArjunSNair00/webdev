@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <title>Emoji generator</title>
+  <style>
+    #emoji_gen{
+      background-color: rgb(222, 135, 171);
+      color:rgb(238, 182, 0);
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+    #emoji{
+      display: flex;
+      flex-direction:column;
+    }
+  </style>
+</head>
+<body>
+  <div id="emoji_gen">
+  <h1>EMOJI GENERATOR</h1>
+  <span id="emoji"></span>
+  <button onclick="randomize()">Click here</button>
+  </div>
+<script>
+  const emoji=[];
+  for (let i = 1;i<=8;i++) 
+  {
+    emoji.push(i.toString());
+  }
+  function randomize()
+  {
+    const num=Math.floor(Math.random() * emoji.length);
+    document.getElementById("emoji").innerHTML =
+  `<img src="emojis/${emoji[num]}.png" alt="emoji" width="64">`;
+  }
+</script>
+</body>
+</html>
