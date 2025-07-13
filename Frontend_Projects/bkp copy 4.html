@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #e0e0e0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #output {
+      flex: 1;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 2px solid #ccc;
+    }
+
+    #controls {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f0f0f0;
+    }
+
+    .emoji-stack {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    .emoji-bg {
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffeb3b;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .emoji-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      top: 0;
+      left: 0;
+    }
+
+    #topText, #bottomText {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 8px;
+      color: #000;
+      text-shadow: 1px 1px #fff;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .horizontal-sliders {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .slider-block {
+      flex: 1;
+    }
+
+    button, select {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      background: #d81b60;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="output">
+    <div id="topText">Top Text</div>
+    <div class="emoji-stack" id="emojiDisplay">
+      <div class="emoji-bg"></div>
+      <img id="faceLayer" alt="Face">
+      <img id="eyeLayer" alt="Eyes">
+      <img id="mouthLayer" alt="Mouth">
+    </div>
+    <div id="bottomText">Bottom Text</div>
+  </div>
+
+  <div id="controls">
+    <label>Preset:
+      <select id="preset" onchange="onPresetChange()">
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="angry">😠 Angry</option>
+        <option value="random">🎲 Random</option>
+      </select>
+    </label>
+
+    <div class="horizontal-sliders">
+      <div class="slider-block">
+        <label>Face Randomness: <span id="faceVal">50</span>%</label>
+        <input type="range" id="faceProb" min="0" max="100" value="50" oninput="updateLabel('faceProb','faceVal')">
+      </div>
+      <div class="slider-block">
+        <label>Eye Randomness: <span id="eyeVal">50</span>%</label>
+        <input type="range" id="eyeProb" min="0" max="100" value="50" oninput="updateLabel('eyeProb','eyeVal')">
+      </div>
+      <div class="slider-block">
+        <label>Mouth Randomness: <span id="mouthVal">50</span>%</label>
+        <input type="range" id="mouthProb" min="0" max="100" value="50" oninput="updateLabel('mouthProb','mouthVal')">
+      </div>
+    </div>
+
+    <div id="mixSliders" style="display: none;">
+      <h4>Emotion Mix</h4>
+      <div class="horizontal-sliders">
+        <div class="slider-block">
+          <label>Happy % <span id="happyMixVal">33</span></label>
+          <input type="range" id="happyMix" min="0" max="100" value="33" oninput="updateMixVal('happyMix','happyMixVal')">
+        </div>
+        <div class="slider-block">
+          <label>Sad % <span id="sadMixVal">33</span></label>
+          <input type="range" id="sadMix" min="0" max="100" value="33" oninput="updateMixVal('sadMix','sadMixVal')">
+        </div>
+        <div class="slider-block">
+          <label>Angry % <span id="angryMixVal">34</span></label>
+          <input type="range" id="angryMix" min="0" max="100" value="34" oninput="updateMixVal('angryMix','angryMixVal')">
+        </div>
+      </div>
+    </div>
+
+    <label>Top Text: <input type="text" id="topTextInput" value="Top Text" oninput="updateText()"></label>
+    <label>Bottom Text: <input type="text" id="bottomTextInput" value="Bottom Text" oninput="updateText()"></label>
+
+    <button onclick="randomize()">🎲 Randomize</button>
+    <button onclick="reset()">♻ Reset</button>
+  </div>
+
+  <script>
+    const maxCheck = 50;
+    const parts = ['face', 'eye', 'mouth'];
+    const emotions = ['happy', 'sad', 'angry'];
+    const dataMap = {};
+
+    // Load images dynamically
+    async function preloadImages() {
+      for (let part of parts) {
+        dataMap[part] = {};
+        for (let emo of emotions) {
+          dataMap[part][emo] = [];
+          for (let i = 1; i <= maxCheck; i++) {
+            const path = `${part}/${emo}/${i}.png`;
+            if (await imageExists(path)) {
+              dataMap[part][emo].push(i);
+            }
+          }
+        }
+      }
+      randomize();
+    }
+
+    function imageExists(path) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.src = path;
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+      });
+    }
+
+    function updateLabel(id, labelId) {
+      document.getElementById(labelId).innerText = document.getElementById(id).value;
+    }
+
+    function updateMixVal(id, labelId) {
+      document.getElementById(labelId).innerText = document.getElementById(id).value;
+    }
+
+    function updateText() {
+      document.getElementById('topText').innerText = document.getElementById('topTextInput').value;
+      document.getElementById('bottomText').innerText = document.getElementById('bottomTextInput').value;
+    }
+
+    function onPresetChange() {
+      const preset = document.getElementById('preset').value;
+      const mix = document.getElementById('mixSliders');
+      mix.style.display = preset === 'random' ? 'block' : 'none';
+    }
+
+    function weightedRandom(list, probability) {
+      return Math.random() * 100 < probability ? list[0] : list[Math.floor(Math.random() * list.length)];
+    }
+
+    function chooseEmotionBySlider() {
+      const h = +document.getElementById("happyMix").value;
+      const s = +document.getElementById("sadMix").value;
+      const a = +document.getElementById("angryMix").value;
+      const rand = Math.random() * (h + s + a);
+      return rand < h ? 'happy' : rand < h + s ? 'sad' : 'angry';
+    }
+
+    function getImagePath(part, emotion, randomnessId) {
+      const list = dataMap[part][emotion];
+      if (!list.length) return "";
+      const prob = +document.getElementById(randomnessId).value;
+      const first = list[0]; // always pick 1st if prob is 0
+      const chosen = prob === 0 ? first : list[Math.floor(Math.random() * list.length)];
+      return `${part}/${emotion}/${chosen}.png`;
+    }
+
+    function randomize() {
+      const preset = document.getElementById('preset').value;
+      let faceE = preset === "random" ? chooseEmotionBySlider() : preset;
+      let eyeE = preset === "random" ? chooseEmotionBySlider() : preset;
+      let mouthE = preset === "random" ? chooseEmotionBySlider() : preset;
+
+      document.getElementById("faceLayer").src = getImagePath("face", faceE, "faceProb");
+      document.getElementById("eyeLayer").src = getImagePath("eye", eyeE, "eyeProb");
+      document.getElementById("mouthLayer").src = getImagePath("mouth", mouthE, "mouthProb");
+
+      updateText();
+    }
+
+    function reset() {
+      document.getElementById("preset").value = "happy";
+      document.getElementById("faceProb").value = 50;
+      document.getElementById("eyeProb").value = 50;
+      document.getElementById("mouthProb").value = 50;
+      updateLabel("faceProb", "faceVal");
+      updateLabel("eyeProb", "eyeVal");
+      updateLabel("mouthProb", "mouthVal");
+      randomize();
+    }
+
+    preloadImages();
+  </script>
+
+</body>
+</html>

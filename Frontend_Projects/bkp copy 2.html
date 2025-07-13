@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Generator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #output-section {
+      flex: 1;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    #emojiDisplay {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    .emoji-bg {
+      position: absolute;
+      top: -12px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffeb3b;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .emoji-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      top: 0;
+      left: 0;
+    }
+
+    .meme-text {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      color: black;
+      margin: 10px;
+      width: 100%;
+    }
+
+    #controls {
+      flex: 1;
+      background-color: #e0e0e0;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    select, input[type="range"], input[type="text"], input[type="color"] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      background-color: #d81b60;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #ad1457;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .text-group {
+      display: none;
+    }
+
+    .text-group.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left: Emoji Output -->
+  <div id="output-section">
+    <div class="meme-text" id="topText">Top Text</div>
+    <div class="emoji-stack" id="emojiDisplay">
+      <div class="emoji-bg"></div>
+      <img id="faceLayer" src="face/happy/1.png" alt="Face">
+      <img id="eyeLayer" src="eye/happy/1.png" alt="Eyes">
+      <img id="mouthLayer" src="mouth/happy/1.png" alt="Mouth">
+    </div>
+    <div class="meme-text" id="bottomText">Bottom Text</div>
+  </div>
+
+  <!-- Right: Controls -->
+  <div id="controls">
+
+    <div class="section">
+      <label for="preset">Emotion Preset</label>
+      <select id="preset" onchange="onPresetChange()">
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="angry">😠 Angry</option>
+        <option value="random">🎰 Random</option>
+      </select>
+    </div>
+
+    <div class="section text-group" id="happyText">
+      <label>Happy Top Text</label>
+      <input type="text" id="happyTopText" placeholder="e.g. Feeling awesome!">
+      <label>Happy Bottom Text</label>
+      <input type="text" id="happyBottomText" placeholder="e.g. Sunshine everywhere!">
+    </div>
+
+    <div class="section text-group" id="sadText">
+      <label>Sad Top Text</label>
+      <input type="text" id="sadTopText" placeholder="e.g. It's raining...">
+      <label>Sad Bottom Text</label>
+      <input type="text" id="sadBottomText" placeholder="e.g. Again.">
+    </div>
+
+    <div class="section text-group" id="angryText">
+      <label>Angry Top Text</label>
+      <input type="text" id="angryTopText" placeholder="e.g. Stop it!">
+      <label>Angry Bottom Text</label>
+      <input type="text" id="angryBottomText" placeholder="e.g. I mean it.">
+    </div>
+
+    <div class="section">
+      <label>Background Color</label>
+      <input type="color" id="colorPicker" value="#ffeb3b">
+    </div>
+
+    <div class="section">
+      <label>Face Randomness (%)</label>
+      <input type="range" id="faceProb" min="0" max="100" value="50">
+
+      <label>Eye Randomness (%)</label>
+      <input type="range" id="eyeProb" min="0" max="100" value="50">
+
+      <label>Mouth Randomness (%)</label>
+      <input type="range" id="mouthProb" min="0" max="100" value="50">
+    </div>
+
+    <div class="section" id="emotionScaleSection">
+      <label>Emotion Intensity Scale</label>
+      <input type="range" id="emotionScale" min="0" max="100" value="50">
+    </div>
+
+    <button onclick="randomize()">🎲 Randomize</button>
+    <button onclick="reset()">♻ Reset</button>
+    <button onclick="exportImage()">📤 Export PNG</button>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const maxOptions = 5;
+    const emotions = ["happy", "sad", "angry"];
+
+    const defaultPresets = {
+      happy:  { face: 20, eye: 30, mouth: 40 },
+      sad:    { face: 50, eye: 60, mouth: 60 },
+      angry:  { face: 70, eye: 80, mouth: 90 },
+      random: { face: 33, eye: 33, mouth: 33 }
+    };
+
+    function weightedRandom(probPercent, max) {
+      const rand = Math.random() * 100;
+      return rand > probPercent ? 1 : Math.floor(Math.random() * (max - 1)) + 2;
+    }
+
+    function getRandomFile(folder, emotion, sliderId) {
+      const prob = parseInt(document.getElementById(sliderId).value, 10);
+      const choice = weightedRandom(prob, maxOptions);
+      return `${folder}/${emotion}/${choice}.png`;
+    }
+
+    function updateSliders() {
+      const emotion = document.getElementById("preset").value;
+      const p = defaultPresets[emotion] || defaultPresets["happy"];
+      document.getElementById("faceProb").value = p.face;
+      document.getElementById("eyeProb").value  = p.eye;
+      document.getElementById("mouthProb").value = p.mouth;
+    }
+
+    function onPresetChange() {
+      const selected = document.getElementById("preset").value;
+      document.querySelectorAll('.text-group').forEach(el => el.classList.remove("active"));
+      if (selected !== "random") {
+        document.getElementById(selected + "Text").classList.add("active");
+        document.getElementById("emotionScaleSection").style.display = "block";
+      } else {
+        document.getElementById("emotionScaleSection").style.display = "none";
+      }
+      updateSliders();
+      randomize();
+    }
+
+    function getTextInputs(preset) {
+      return {
+        top: document.getElementById(preset + "TopText").value || "",
+        bottom: document.getElementById(preset + "BottomText").value || ""
+      };
+    }
+
+    function randomEmotion() {
+      return emotions[Math.floor(Math.random() * emotions.length)];
+    }
+
+    function randomize() {
+      let preset = document.getElementById("preset").value;
+
+      let faceEmotion  = preset === "random" ? randomEmotion() : preset;
+      let eyeEmotion   = preset === "random" ? randomEmotion() : preset;
+      let mouthEmotion = preset === "random" ? randomEmotion() : preset;
+
+      document.getElementById("faceLayer").src  = getRandomFile("face", faceEmotion, "faceProb");
+      document.getElementById("eyeLayer").src   = getRandomFile("eye", eyeEmotion, "eyeProb");
+      document.getElementById("mouthLayer").src = getRandomFile("mouth", mouthEmotion, "mouthProb");
+
+      document.querySelector(".emoji-bg").style.backgroundColor = document.getElementById("colorPicker").value;
+
+      if (preset !== "random") {
+        const text = getTextInputs(preset);
+        document.getElementById("topText").innerText = text.top;
+        document.getElementById("bottomText").innerText = text.bottom;
+      } else {
+        document.getElementById("topText").innerText = "Random Mood!";
+        document.getElementById("bottomText").innerText = "You get what you get.";
+      }
+    }
+
+    function reset() {
+      document.getElementById("preset").value = "happy";
+      document.getElementById("colorPicker").value = "#ffeb3b";
+      document.querySelectorAll("input[type='text']").forEach(el => el.value = "");
+      onPresetChange();
+    }
+
+    function exportImage() {
+      html2canvas(document.querySelector("#output-section"), {
+        backgroundColor: null,
+        scale: 3
+      }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "emoji.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+
+    // Initialize
+    onPresetChange();
+  </script>
+</body>
+</html>

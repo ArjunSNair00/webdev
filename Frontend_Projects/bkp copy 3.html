@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emoji Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+    .controls {
+      width: 40%;
+      background: #e0e0e0;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .output {
+      width: 60%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fce4ec;
+    }
+    .emoji-stack {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+    .emoji-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #ffeb3b;
+      z-index: 0;
+    }
+    .emoji-stack img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #faceLayer { z-index: 1; }
+    #eyeLayer { z-index: 2; }
+    #mouthLayer { z-index: 3; }
+    #topText, #bottomText {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px white;
+      z-index: 10;
+    }
+    #topText {
+      top: -40px;
+    }
+    #bottomText {
+      bottom: -40px;
+    }
+    .text-group {
+      display: none;
+      margin-bottom: 10px;
+    }
+    .text-group.active {
+      display: block;
+    }
+    label { display: block; margin: 6px 0 3px; }
+    input[type="range"] {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <h2>Emoji Generator</h2>
+
+    <label for="preset">Preset</label>
+    <select id="preset" onchange="onPresetChange()">
+      <option value="happy">😊 Happy</option>
+      <option value="sad">😢 Sad</option>
+      <option value="angry">😠 Angry</option>
+      <option value="random">🎲 Random</option>
+    </select>
+
+    <div class="text-group" id="happyText">
+      <label>Happy Top Text</label>
+      <input type="text" id="happyTop" />
+      <label>Happy Bottom Text</label>
+      <input type="text" id="happyBottom" />
+    </div>
+    <div class="text-group" id="sadText">
+      <label>Sad Top Text</label>
+      <input type="text" id="sadTop" />
+      <label>Sad Bottom Text</label>
+      <input type="text" id="sadBottom" />
+    </div>
+    <div class="text-group" id="angryText">
+      <label>Angry Top Text</label>
+      <input type="text" id="angryTop" />
+      <label>Angry Bottom Text</label>
+      <input type="text" id="angryBottom" />
+    </div>
+
+    <div id="emotionScaleSection">
+      <label>Emotion Scale</label>
+      <input type="range" min="1" max="100" value="50" />
+    </div>
+
+    <div id="randomTextOption" style="display: none;">
+      <label><input type="checkbox" id="randomizeTextSeparately" /> Randomize top & bottom text separately</label>
+    </div>
+
+    <label>Face Randomness</label>
+    <input type="range" id="faceProb" min="0" max="100" value="30" />
+
+    <label>Eye Randomness</label>
+    <input type="range" id="eyeProb" min="0" max="100" value="30" />
+
+    <label>Mouth Randomness</label>
+    <input type="range" id="mouthProb" min="0" max="100" value="30" />
+
+    <label>Background Color</label>
+    <input type="color" id="colorPicker" value="#ffeb3b" />
+
+    <button onclick="randomize()">🎲 Randomize</button>
+  </div>
+
+  <div class="output">
+    <div class="emoji-stack" id="emojiDisplay">
+      <div id="topText">Top</div>
+      <div class="emoji-bg"></div>
+      <img id="faceLayer" src="face/happy/1.png" alt="Face">
+      <img id="eyeLayer" src="eye/happy/1.png" alt="Eyes">
+      <img id="mouthLayer" src="mouth/happy/1.png" alt="Mouth">
+      <div id="bottomText">Bottom</div>
+    </div>
+  </div>
+
+  <script>
+    const emotions = ["happy", "sad", "angry"];
+    const maxOptions = 5;
+
+    function randomEmotion() {
+      return emotions[Math.floor(Math.random() * emotions.length)];
+    }
+
+    function weightedRandom(probPercent, max) {
+      const rand = Math.random() * 100;
+      return rand > probPercent ? 1 : Math.floor(Math.random() * (max - 1)) + 2;
+    }
+
+    function getRandomFile(folder, emotion, sliderId) {
+      const prob = parseInt(document.getElementById(sliderId).value, 10);
+      const choice = weightedRandom(prob, maxOptions);
+      return `${folder}/${emotion}/${choice}.png`;
+    }
+
+    function getTextInputs(emotion) {
+      return {
+        top: document.getElementById(emotion + "Top").value,
+        bottom: document.getElementById(emotion + "Bottom").value
+      };
+    }
+
+    function onPresetChange() {
+      const preset = document.getElementById("preset").value;
+      document.querySelectorAll(".text-group").forEach(div => div.classList.remove("active"));
+      document.getElementById("emotionScaleSection").style.display = preset === "random" ? "none" : "block";
+      document.getElementById("randomTextOption").style.display = preset === "random" ? "block" : "none";
+      if (preset !== "random") document.getElementById(preset + "Text").classList.add("active");
+      randomize();
+    }
+
+    function randomize() {
+      const preset = document.getElementById("preset").value;
+      const randomSeparate = document.getElementById("randomizeTextSeparately").checked;
+
+      const faceEmotion = preset === "random" ? randomEmotion() : preset;
+      const eyeEmotion = preset === "random" ? randomEmotion() : preset;
+      const mouthEmotion = preset === "random" ? randomEmotion() : preset;
+
+      document.getElementById("faceLayer").src = getRandomFile("face", faceEmotion, "faceProb");
+      document.getElementById("eyeLayer").src = getRandomFile("eye", eyeEmotion, "eyeProb");
+      document.getElementById("mouthLayer").src = getRandomFile("mouth", mouthEmotion, "mouthProb");
+      document.querySelector(".emoji-bg").style.backgroundColor = document.getElementById("colorPicker").value;
+
+      if (preset === "random") {
+        const topEmotion = randomSeparate ? randomEmotion() : randomEmotion();
+        const bottomEmotion = randomSeparate ? randomEmotion() : topEmotion;
+        const topText = getTextInputs(topEmotion);
+        const bottomText = getTextInputs(bottomEmotion);
+        document.getElementById("topText").innerText = topText.top || "Top";
+        document.getElementById("bottomText").innerText = bottomText.bottom || "Bottom";
+      } else {
+        const text = getTextInputs(preset);
+        document.getElementById("topText").innerText = text.top || "Top";
+        document.getElementById("bottomText").innerText = text.bottom || "Bottom";
+      }
+    }
+
+    window.onload = onPresetChange;
+  </script>
+</body>
+</html>

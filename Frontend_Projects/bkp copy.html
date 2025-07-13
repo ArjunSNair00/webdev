@@ -2,179 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Emoji Generator</title>
+  <title>Emoji Generator with Export & Presets</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #fce4ec;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
+      margin: 0;
     }
 
     #emoji_gen {
-      background-color: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .left {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
+      width: 320px;
     }
 
-    h1 {
-      color: #d81b60;
-      margin-bottom: 20px;
+    .emoji-stack {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
     }
 
-    #emoji img {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 20px;
-      transition: transform 0.2s ease;
+    .emoji-bg {
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffeb3b;
+      border-radius: 50%;
+      z-index: 0;
     }
 
-    #emoji img:hover {
-      transform: scale(1.1);
+    .emoji-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      top: 0;
+      left: 0;
     }
 
-    button {
+    #faceLayer { z-index: 1; }
+    #eyeLayer { z-index: 2; }
+    #mouthLayer { z-index: 3; }
+
+    button, select {
       background-color: #d81b60;
       color: white;
+      padding: 8px 16px;
       border: none;
-      padding: 12px 24px;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      margin: 6px 4px;
     }
 
-    button:hover {
+    button:hover, select:hover {
       background-color: #ad1457;
     }
 
-    .right {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
+    select {
+      background-color: #f06292;
+      color: white;
     }
 
-    .slider-container {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .sliders {
+      margin-top: 20px;
+      text-align: left;
     }
 
-    .slider-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .slider-group {
+      margin-bottom: 10px;
     }
 
-    #probDisplay {
-      font-weight: bold;
-      min-width: 40px;
-    }
-
-    input[type="range"] {
-      width: 200px;
+    .slider-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
     }
   </style>
 </head>
 <body>
 
   <div id="emoji_gen">
-    <div class="left">
-      <h1>Emoji Generator</h1>
-      <div id="emoji"><img id="emojiImg" src="emojis/1.png" alt="emoji"></div>
-      <button id="generateBtn">Click here</button>
+    <h2>Emoji Generator</h2>
+
+    <div class="emoji-stack" id="emojiDisplay">
+      <div class="emoji-bg"></div>
+      <img id="faceLayer" src="face/happy/1.png" alt="Face">
+      <img id="eyeLayer" src="eye/happy/1.png" alt="Eyes">
+      <img id="mouthLayer" src="mouth/happy/1.png" alt="Mouth">
     </div>
 
-    <div class="right">
-      <div class="slider-container">
-        <label for="probInput">Probability for this emoji (0% - 100%):</label>
-        <div class="slider-wrapper">
-          <input type="range" id="probInput" min="0" max="100" step="1" value="12.5">
-          <span id="probDisplay">12.5%</span>
-        </div>
+    <select id="preset" onchange="updateSliders()">
+      <option value="happy">😊 Happy</option>
+      <option value="sad">😢 Sad</option>
+      <option value="angry">😠 Angry</option>
+      <option value="random">🎰 Random</option>
+    </select>
+
+    <div class="sliders">
+      <div class="slider-group">
+        <label for="faceProb">Face rarity (%): <span id="faceVal">30</span></label>
+        <input type="range" id="faceProb" min="0" max="100" value="30" oninput="updateLabel('faceProb','faceVal')">
       </div>
+      <div class="slider-group">
+        <label for="eyeProb">Eye rarity (%): <span id="eyeVal">30</span></label>
+        <input type="range" id="eyeProb" min="0" max="100" value="30" oninput="updateLabel('eyeProb','eyeVal')">
+      </div>
+      <div class="slider-group">
+        <label for="mouthProb">Mouth rarity (%): <span id="mouthVal">30</span></label>
+        <input type="range" id="mouthProb" min="0" max="100" value="30" oninput="updateLabel('mouthProb','mouthVal')">
+      </div>
+    </div>
+
+    <div>
+      <button onclick="randomize()">🎲 Randomize</button>
+      <button onclick="reset()">♻ Reset</button>
+      <button onclick="exportImage()">📤 Export</button>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
   <script>
-    const emojiIds = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
-    const weights = Array(8).fill(12.5); // Default equal probabilities
-    let currentIndex = 0;
+    const maxOptions = 5;
+    const emotions = ["happy", "sad", "angry"];
 
-    const emojiImg = document.getElementById("emojiImg");
-    const probSlider = document.getElementById("probInput");
-    const probDisplay = document.getElementById("probDisplay");
+    const defaultPresets = {
+      happy: { face: 30, eye: 30, mouth: 30 },
+      sad:   { face: 50, eye: 70, mouth: 60 },
+      angry: { face: 20, eye: 80, mouth: 90 },
+      random: { face: 33, eye: 33, mouth: 33 }
+    };
 
-    function updateDisplayedEmoji(index) {
-      currentIndex = index;
-      emojiImg.src = `emojis/${emojiIds[index]}.png`;
-      probSlider.value = weights[index];
-      probDisplay.textContent = weights[index].toFixed(1) + '%';
+    function updateLabel(sliderId, labelId) {
+      document.getElementById(labelId).innerText = document.getElementById(sliderId).value;
     }
 
-    function getUpdatedWeights() {
-      const val = parseFloat(probSlider.value);
+    function updateSliders() {
+      const emotion = document.getElementById("preset").value;
+      const p = defaultPresets[emotion] || defaultPresets["happy"];
 
-      if (val === 100) {
-        // Set all others to 0 if this one is 100
-        weights.fill(0);
-        weights[currentIndex] = 100;
-      } else {
-        weights[currentIndex] = isNaN(val) || val < 0 ? 0 : val;
-      }
+      document.getElementById("faceProb").value = p.face;
+      document.getElementById("eyeProb").value = p.eye;
+      document.getElementById("mouthProb").value = p.mouth;
+
+      updateLabel('faceProb', 'faceVal');
+      updateLabel('eyeProb', 'eyeVal');
+      updateLabel('mouthProb', 'mouthVal');
     }
 
-    function weightedRandomIndex(percentages) {
-      const max = Math.max(...percentages);
+    function weightedRandom(probPercent, max) {
+      const rand = Math.random() * 100;
+      return rand < probPercent ? 1 : Math.floor(Math.random() * (max - 1)) + 2;
+    }
 
-      // Force emoji with 100% to be selected
-      if (max === 100) {
-        return percentages.indexOf(100);
-      }
+    function randomEmotion() {
+      return emotions[Math.floor(Math.random() * emotions.length)];
+    }
 
-      const total = percentages.reduce((a, b) => a + b, 0);
-      if (total <= 0) return 0;
-
-      const rand = Math.random() * total;
-      let sum = 0;
-      for (let i = 0; i < percentages.length; i++) {
-        sum += percentages[i];
-        if (rand < sum) return i;
-      }
-      return 0;
+    function getRandomFile(folder, emotion, sliderId) {
+      const prob = parseInt(document.getElementById(sliderId).value, 10);
+      const choice = weightedRandom(prob, maxOptions);
+      return `${folder}/${emotion}/${choice}.png`;
     }
 
     function randomize() {
-      getUpdatedWeights();
-      const index = weightedRandomIndex(weights);
-      updateDisplayedEmoji(index);
+      let preset = document.getElementById("preset").value;
+
+      let faceEmotion = preset === "random" ? randomEmotion() : preset;
+      let eyeEmotion = preset === "random" ? randomEmotion() : preset;
+      let mouthEmotion = preset === "random" ? randomEmotion() : preset;
+
+      document.getElementById("faceLayer").src = getRandomFile("face", faceEmotion, "faceProb");
+      document.getElementById("eyeLayer").src  = getRandomFile("eye", eyeEmotion, "eyeProb");
+      document.getElementById("mouthLayer").src = getRandomFile("mouth", mouthEmotion, "mouthProb");
     }
 
-    probSlider.addEventListener("input", () => {
-      probDisplay.textContent = probSlider.value + '%';
-    });
+    function reset() {
+      document.getElementById("preset").value = "happy";
+      updateSliders();
+      randomize();
+    }
 
-    document.getElementById("generateBtn").addEventListener("click", randomize);
+    function exportImage() {
+      html2canvas(document.querySelector("#emojiDisplay"), {
+        backgroundColor: null,
+        scale: 3
+      }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "emoji.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
 
-    // Initial display
-    updateDisplayedEmoji(0);
+    // Initialize
+    updateSliders();
+    randomize();
   </script>
 
 </body>
