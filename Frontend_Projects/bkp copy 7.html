@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emoji Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      height: 100vh;
+      color: #333;
+    }
+
+    #output {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      padding: 40px;
+    }
+
+    .meme-text {
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+      margin: 12px 0;
+      color: #444;
+    }
+
+    #emojiDisplay {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    .emoji-bg {
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffd54f;
+      border-radius: 50%;
+      z-index: 0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .emoji-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      top: 0;
+      left: 0;
+    }
+
+    #controls {
+      width: 400px;
+      background: #ffffff;
+      padding: 24px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      overflow-y: auto;
+      border-left: 1px solid #e0e0e0;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .slider-group {
+      flex: 1;
+      min-width: 100px;
+      margin-bottom: 16px;
+    }
+
+    .slider-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .sliders {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    button, select, input[type="color"] {
+      margin: 6px 4px;
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fafafa;
+      transition: all 0.2s ease;
+    }
+
+    button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #4338ca;
+    }
+
+    select:hover,
+    input[type="color"]:hover {
+      border-color: #999;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    .text-section {
+      margin-top: 12px;
+      padding: 12px;
+      background: #f0f2f5;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .text-section label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .text-section input {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+      accent-color: #4f46e5;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="output">
+    <div class="meme-text" id="topText">Top Text</div>
+    <div class="emoji-stack" id="emojiDisplay">
+      <div class="emoji-bg" id="emojiBg"></div>
+      <img id="eyesLayer" src="eyes/happy/1.png" alt="Eyes">
+      <img id="mouthLayer" src="mouth/happy/1.png" alt="Mouth">
+    </div>
+    <div class="meme-text" id="bottomText">Bottom Text</div>
+  </div>
+
+  <div id="controls">
+    <h3>Emoji Preset</h3>
+    <select id="preset" onchange="onPresetChange()">
+      <option value="happy">😊 Happy</option>
+      <option value="sad">😢 Sad</option>
+      <option value="angry">😠 Angry</option>
+      <option value="random" selected>🎰 Random</option>
+    </select>
+
+    <div class="text-section">
+      <label>Happy Emotion Text</label><br>
+      <input type="text" placeholder="Top Text (Happy)" id="topText-happy" value="Feeling Great!">
+      <input type="text" placeholder="Bottom Text (Happy)" id="bottomText-happy" value="Keep Smiling!">
+    </div>
+
+    <div class="text-section">
+      <label>Sad Emotion Text</label><br>
+      <input type="text" placeholder="Top Text (Sad)" id="topText-sad" value="Not My Day">
+      <input type="text" placeholder="Bottom Text (Sad)" id="bottomText-sad" value="Feeling Blue">
+    </div>
+
+    <div class="text-section">
+      <label>Angry Emotion Text</label><br>
+      <input type="text" placeholder="Top Text (Angry)" id="topText-angry" value="Why Me?!">
+      <input type="text" placeholder="Bottom Text (Angry)" id="bottomText-angry" value="So Mad Right Now">
+    </div>
+
+    <div class="checkbox-label">
+      <input type="checkbox" id="randomText"> <label for="randomText">Randomize top/bottom text</label>
+    </div>
+
+    <h3>Randomness Sliders (%)</h3>
+    <div class="sliders">
+      <div class="slider-group">
+        <label>Eyes: <span id="eyesVal">100</span>%</label>
+        <input type="range" id="eyesProb" min="0" max="100" value="100" oninput="updateLabel(this, 'eyesVal')">
+      </div>
+      <div class="slider-group">
+        <label>Mouth: <span id="mouthVal">100</span>%</label>
+        <input type="range" id="mouthProb" min="0" max="100" value="100" oninput="updateLabel(this, 'mouthVal')">
+      </div>
+    </div>
+
+    <div id="emotionSlidersContainer">
+      <h3>🎭 Emotion Mix (Random Preset)</h3>
+      <div class="sliders">
+        <div class="slider-group">
+          <label>Happy: <span id="happyMixVal">100</span>%</label>
+          <input type="range" id="happyMix" min="0" max="100" value="100" oninput="updateLabel(this, 'happyMixVal')">
+        </div>
+        <div class="slider-group">
+          <label>Sad: <span id="sadMixVal">100</span>%</label>
+          <input type="range" id="sadMix" min="0" max="100" value="100" oninput="updateLabel(this, 'sadMixVal')">
+        </div>
+        <div class="slider-group">
+          <label>Angry: <span id="angryMixVal">100</span>%</label>
+          <input type="range" id="angryMix" min="0" max="100" value="100" oninput="updateLabel(this, 'angryMixVal')">
+        </div>
+      </div>
+    </div>
+
+    <h3>Background Color</h3>
+    <input type="color" id="bgColor" value="#ffeb3b" onchange="updateBgColor()" oninput="updateBgColor()">
+    <div class="checkbox-label">
+      <input type="checkbox" id="randomBg" onchange="handleColorRandom()"> <label for="randomBg">Randomize background</label>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button onclick="randomize()">🎲 Randomize</button>
+      <button onclick="exportImage()">📤 Export</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- Add this flag inside <script> -->
+<script>
+  const maxImages = 5;
+  const emotions = ['happy', 'sad', 'angry'];
+  const layers = ['eyes', 'mouth'];
+  let currentEmotion = { eyes: 'happy', mouth: 'happy' };
+  let allowTextRandom = false; // <-- NEW FLAG
+
+  function updateLabel(slider, labelId) {
+    document.getElementById(labelId).textContent = slider.value;
+  }
+
+  function updateBgColor() {
+    const color = document.getElementById('bgColor').value;
+    document.getElementById('emojiBg').style.backgroundColor = color;
+  }
+
+  function handleColorRandom() {
+    if (document.getElementById("randomBg").checked) {
+      const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      document.getElementById("bgColor").value = color;
+      updateBgColor();
+    }
+  }
+
+  function onPresetChange() {
+    const preset = document.getElementById("preset").value;
+    document.getElementById("emotionSlidersContainer").style.display = preset === "random" ? "block" : "none";
+    randomize(); // Keep this if you want appearance to change
+  }
+
+  function getSliderVal(id) {
+    return parseInt(document.getElementById(id).value);
+  }
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max) + 1;
+  }
+
+  function getRandomEmotionFromMix() {
+    const total = getSliderVal('happyMix') + getSliderVal('sadMix') + getSliderVal('angryMix');
+    const rand = Math.random() * total;
+    if (rand < getSliderVal('happyMix')) return 'happy';
+    else if (rand < getSliderVal('happyMix') + getSliderVal('sadMix')) return 'sad';
+    return 'angry';
+  }
+
+function randomize() {
+  const preset = document.getElementById("preset").value;
+  const randomizeText = document.getElementById("randomText").checked;
+  const chosen = { eyes: currentEmotion.eyes, mouth: currentEmotion.mouth };
+
+  // Determine emotion
+  if (preset === "random") {
+    if (getSliderVal('eyesProb') > 0) chosen.eyes = getRandomEmotionFromMix();
+    if (getSliderVal('mouthProb') > 0) chosen.mouth = getRandomEmotionFromMix();
+  } else {
+    chosen.eyes = preset;
+    chosen.mouth = preset;
+  }
+
+  currentEmotion.eyes = chosen.eyes;
+  currentEmotion.mouth = chosen.mouth;
+
+  // Set eyes and mouth images
+  layers.forEach(layer => {
+    const prob = getSliderVal(`${layer}Prob`);
+    const index = Math.random() * 100 < prob ? getRandomInt(maxImages) : 1;
+    document.getElementById(`${layer}Layer`).src = `${layer}/${chosen[layer]}/${index}.png`;
+  });
+
+  // Corrected logic — only randomize text if checkbox is checked
+  let topEmotion, bottomEmotion;
+  if (preset === "random" && randomizeText) {
+    topEmotion = getRandomEmotionFromMix();
+    bottomEmotion = getRandomEmotionFromMix();
+  } else {
+    topEmotion = chosen.eyes;
+    bottomEmotion = chosen.mouth;
+  }
+
+  document.getElementById("topText").textContent =
+    document.getElementById(`topText-${topEmotion}`)?.value || "Top Text";
+  document.getElementById("bottomText").textContent =
+    document.getElementById(`bottomText-${bottomEmotion}`)?.value || "Bottom Text";
+
+  handleColorRandom();
+}
+
+
+  function exportImage() {
+    html2canvas(document.getElementById("emojiDisplay")).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "emoji.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+
+  // Initial setup
+  onPresetChange();
+  updateBgColor();
+</script>
+</body>
+</html>
