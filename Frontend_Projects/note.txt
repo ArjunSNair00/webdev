@@ -26,3 +26,6 @@ Click a button to show a random emoji and message.
 - CSS Flexbox, transitions, animations
 - Array usage & Math.random()
 - Input handling, validation, conditionals (if/else)
+
+
+https://www.google.com/search?q=emoji+kitchen
