@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escape the Stack</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 20px;
+    }
+    #canvas {
+      border: 2px solid #333;
+      margin: 20px auto;
+      display: block;
+    }
+    .button {
+      padding: 10px;
+      background: #444;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .button:hover {
+      background: #555;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #aaa;
+    }
+    .choices {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .choice-button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .choice-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Escape the Stack</h1>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <div class="message" id="message">You are trapped in a recursive loop...</div>
+  <div class="choices">
+    <button class="choice-button" id="nextRoom">Move Deeper</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const messageElement = document.getElementById('message');
+    let currentDepth = 1;
+    let maxDepth = 5;
+
+    const rooms = [
+      'You have entered the first layer of recursion. The walls are static, but the path is unclear...',
+      'You are deeper now. A faint echo rings through the room, hinting at something beyond...',
+      'The walls distort. Something feels wrong. The echoes grow louder, like whispers of a base case...',
+      'You are now in the recursive heart. The path before you is infinite. Do you continue or break free?',
+      'You’ve gone too deep. The loop is collapsing. There is no way out... unless you find the base case.'
+    ];
+
+    function drawRoom(depth) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Recursive visual: faint layers
+      ctx.fillStyle = `rgba(255, 255, 255, ${1 / (depth + 1)})`;
+      ctx.fillRect(30, 30, canvas.width - 60, canvas.height - 60);
+      
+      // Base case visual
+      if (depth === maxDepth) {
+        ctx.strokeStyle = '#0f0';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+      }
+    }
+
+    function updateMessage() {
+      messageElement.textContent = rooms[currentDepth - 1];
+    }
+
+    function handleMove() {
+      if (currentDepth < maxDepth) {
+        currentDepth++;
+        updateMessage();
+        drawRoom(currentDepth);
+      } else {
+        messageElement.textContent = 'You found the base case and broke free from the recursion loop!';
+      }
+    }
+
+    document.getElementById('nextRoom').addEventListener('click', handleMove);
+
+    drawRoom(currentDepth);
+    updateMessage();
+  </script>
+</body>
+</html>

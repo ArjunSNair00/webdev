@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>College of Engineering Karunagappally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: url('clg.jpg') no-repeat center center/cover;
+      background-attachment: fixed; 
+      background-size: cover; 
+      color: #333; 
+      line-height: 1.6;
+      height: 100vh; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      filter: blur(10px); 
+      z-index: -1; 
+    }
+
+    .about {
+      position: relative;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85); 
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      color: #1e2a47; 
+      margin: 40px 20px;
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    p {
+      font-size: 1.1em;
+      margin: 20px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      color: #3e4b75; 
+      line-height: 1.8;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
+    }
+
+    table {
+      width: 90%;
+      margin: 40px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 16px;
+      text-align: left;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    th {
+      background-color: #0288d1; 
+      color: #fff;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    td {
+      background-color: #f4f7fb; 
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover td {
+      background-color: #e1f5fe; 
+    }
+
+    a {
+      color: #0288d1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #004b73; 
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="about">
+    <h1>College of Engineering Karunagappally</h1>
+    <p>
+      The College of Engineering Karunagappally (CEK) is a public institute of engineering and technology located in Karunagappally, Kollam district, Kerala, India. Established in 1999 by the Government of Kerala, it is the second engineering college in Kollam district and the fourth under the Institute of Human Resources Development in Electronics.
+    </p>
+    <p>
+      The college has a strong focus on technical education and has made its presence felt in the state's technical horizon. For more information on admissions, courses, and rankings, you can <a href="https://www.ceknpy.ac.in/" target="_blank">visit the college's website</a> or contact them directly.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Computer Science and Engineering</td>
+        </tr>
+        <tr>
+          <td>Electrical and Electronics Engineering</td>
+        </tr>
+        <tr>
+          <td>Electronics and Communication Engineering</td>
+        </tr>
+        <tr>
+          <td>Mechanical Engineering</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

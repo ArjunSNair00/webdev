@@ -1,0 +1,64 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;  
+  min-height: 100vh;
+  margin: 0;
+  background: grey;
+}
+
+#keyboard{
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  padding: 30px;
+  gap:20px;
+  border: 20px solid rgb(47, 47, 47);
+  /* margin: 30px;  */
+}
+.row{
+  display: flex;
+  gap:20px;
+}
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  height: 60px;
+  width: 60px;
+  background: rgb(54, 54, 54);
+  font-size: 30px;
+  transition: 
+  transform 0.1s ease, 
+  background 0.1s ease, 
+  color 0.1s ease;
+
+}
+#zero{
+  width: 140px;
+}
+.buttons:hover{
+  background: rgb(80, 80, 80);
+  color: rgb(255, 196, 0);
+  cursor: pointer;
+  transform: scale(1.15); /* 5% bigger */
+}
+.buttons:active{
+  background: rgb(196, 196, 196);
+  color:black;
+}
+
+#numLock{
+  font-size: 10px;
+}
+
+#plus{
+  height: 140px;
+}
+
+#enter{
+  font-size: 10px;
+  height: 140px;
+}

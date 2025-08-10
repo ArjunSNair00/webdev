@@ -1,0 +1,273 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+}
+
+/*menu*/
+nav {
+  background: #003366;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav a {
+  color: white;
+  margin: 0 1em;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #FFD700;
+}
+
+/*first page*/
+.first {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* first background (white) */
+.first::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../images/whitebg.jpg') no-repeat center center/cover;
+  z-index: -2;
+  backdrop-filter: blur(6px);
+}
+
+/* Second background (college)*/
+.first::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../images/college.jpg') no-repeat center center/cover;
+  filter: blur(6px) brightness(0.3);
+  opacity: 0;
+  z-index: -1;
+  animation: fadeInSecond 3s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeInSecond {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.first-text {
+  position: relative;
+  color: white;
+  text-align: center;
+  z-index: 2;
+}
+
+.first-text h1{
+  font-size: 35px;
+  margin-bottom: 1rem;
+}
+
+.first-text p {
+  font-size: 1.3rem;
+}
+
+section {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+section:nth-child(even) {
+  background: #f4f4f4;
+}
+
+h1 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+footer {
+  background: #222;
+  color: #eee;
+  text-align: center;
+  padding: 1em;
+  margin-top: 40px;
+}
+
+.button {
+  background: #003366;
+  color: white;
+  padding: 10px 20px;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/*animations*/
+/* Logo Animation */
+.first .logo-container img {
+  animation-name: fadeBounce;
+  animation-duration: 1.5s;  /* Shorter duration for the logo fade-in */
+  animation-delay: 0s;  /* No delay for the logo */
+  animation-fill-mode: forwards; /* Ensures it stays visible after animation */
+}
+
+/* Heading Animation */
+.first h1{
+  opacity: 0;  /* Ensures it's hidden initially */
+  animation-name: fadeBounce;
+  animation-duration: 1.5s; /* Same duration for the heading */
+  animation-delay: 1s; /* Delay to start after logo */
+  animation-fill-mode: forwards; /* Ensures it stays visible after animation */
+}
+
+/* Info Animation */
+#info {
+  text-align: center;
+  opacity: 0;  /* Ensures it's hidden initially */
+  animation-name: fade;
+  animation-duration: 5s; /* Duration for the info slide */
+  animation-delay: 3s; /* Delay to start after heading */
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeBounce {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); /* Starts higher up */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Ends in normal position */
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100px);  /* Starts from right (or 100px off the right side) */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);  /* Ends in normal position */
+    opacity: 1;
+  }
+}
+
+
+/*departments*/
+.departments {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+}
+
+.department-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin: 15px 0;
+  font-size: 18px;
+  padding: 0 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/*courses*/
+.course-table {
+  width: 90%;
+  max-width: 800px;
+  margin-left: 0; /* Align to left */
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.course-table th, .course-table td {
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.course-table thead {
+  background-color: #003366;
+  color: white;
+}
+
+.course-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.course-table tbody tr:hover {
+  background-color: #e0f2f1;
+}
+
+.accredited {
+  font-style: italic;
+  color: #003366;
+  font-weight: 500;
+}
+
+h2 {
+  color: #004d40;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .course-table th, .course-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

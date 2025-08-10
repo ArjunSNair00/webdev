@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2, .st3, .st4, .st5 {
+        stroke-miterlimit: 10;
+      }
+
+      .st0, .st1, .st3, .st5 {
+        fill: none;
+      }
+
+      .st0, .st2, .st3, .st4, .st5 {
+        stroke: #000;
+      }
+
+      .st0, .st2, .st4 {
+        stroke-width: .5px;
+      }
+
+      .st1 {
+        stroke: #0af;
+      }
+
+      .st1, .st3 {
+        stroke-width: .09px;
+      }
+
+      .st6 {
+        opacity: .18;
+      }
+
+      .st7 {
+        fill: #ffce52;
+      }
+
+      .st2 {
+        fill: #fff;
+      }
+
+      .st2, .st8 {
+        isolation: isolate;
+      }
+
+      .st9 {
+        fill: #273941;
+      }
+
+      .st9, .st10, .st11 {
+        display: none;
+      }
+
+      .st4 {
+        fill: #2d2921;
+      }
+
+      .st5 {
+        stroke-width: .1px;
+      }
+
+      .st11 {
+        opacity: .57;
+      }
+    </style>
+  </defs>
+  <g id="reference" class="st11">
+    <g id="_21-hungry" class="st6">
+      <circle id="ellipse" class="st7" cx="24" cy="24" r="23"/>
+      <ellipse id="eye2" class="st9" cx="33" cy="16" rx="3" ry="4"/>
+      <ellipse id="eye1" class="st9" cx="15" cy="16" rx="3" ry="4"/>
+      <path id="mouth" class="st9" d="M9,26c0-.83,6.71-1,15-1s15,.17,15,1c0,6.75-8.18,11-15,11s-15-4.25-15-11Z"/>
+    </g>
+  </g>
+  <g id="Layer_4" class="st10">
+    <image class="st8" width="320" height="320" transform="translate(4.22 6.38) scale(.12)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATsAAAE8CAYAAAC/2RZ/AAAACXBIWXMAAFxGAABcRgEUlENBAAAFTElEQVR4nO3dQXbbNhQFUKgnC2o9bfbQLrXdQzt1uiNnkLLHZk0RAEESwL93lhxZIsEv/CeQolICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVh53b0Cht9W/R9v+q6zHaRFtvIxDmanfXz/dvQEAV/hy9wbQ1FaS4aNlnKZKLjwn2QEhjNbZrMH8kJvgoo3LHuP2uRDvK8kOCGHUmTtqh466361FHceo+51SkuyAIEafwUvPPo6yv6E78I1mG/dZ3x9VJDsghFln8qPXm901LrMli1H1fhxGre9bSXZACFFm+LO+WVA6ftZQxnb28eulTqck2QEhmPE/6uW7pY5L39TJgCQ7IASdoY6zYTyjPjok2QEh6CBtTH2HV5pTLzeQ7IAQZu8opR00975eOjMt7dVT7f3m1Ok7kh0QwqwzfelvDOR2wFa/XbB3tm7W4zKLs4/fXp3VJrbQv70h2QEhjDLD53ak0sctHhv/v5b7uFytkydtHE1ORx2tx9bvkynqTbIDQuh9xm7VgXr5LuNRvR+v2cxeN6ESnmQHhNDbTF16VjS60vHp7XifrXQc1NUPrc8Cd0GyA0LobWY+de3t7e3zP388Pr7cy8tLSiml19fXIy/33/PsWb/Osp3r7SrQ23HtTVUdbR2X2uNcaqsuc+u6wtnXm15KsgNC+HLz6zddo9vqcFsadL6nlg6c2/nX1vtTsL1Ddt4LFBVIaT1tOZro9ix1sd7eve3PqKetOqq9vu9Wkh0QwtXJbq9VnpLgctUmsFqlHb8i6UU9K3toTa7U0QRfqtWacsFaX+7AdJ30JDsghLvX7Iqcleh6Ubp/1vT+55I1uQZny7s26/5JdkAId03dT1vqVQku93qp2rWR0uc7ut9POvGQZ88qFN3N5qzxvquO7nrffPaQK7ajlGQHhNDlmt1W5xh1zW6vo9fu19d//kwppfT3L7/n/kmXHbehov1b6uzXb3+klFL66+ffil5sa21rfbyvPsvfijU7gAHdleyqvimx7sRrS8Lp4Hqpx7/Pd8ra5JLocrfj2SZkPq53e/uRdeffZVxbJbzFu6TX5E7XR6+vy30f5TzVoQ25mGQHhNDrzLzu1FmdcKtT5Vp3tFZXqq+VJrp1knvSeUvPuo76DYuj96l7WlfrOipNeq3XurbqsHW9P7Eer97r41OSHRBCrzN07b3xD62FHO2UZ5l1DaUDl3xiOEtBXWwpTWySHUDvep+ha38Hdkvr3329y1R3kL3B7L9GV1rnUye6hWQHhDDKTN2qs9T+wvrVSn8RnjbUx0dTJLqFZAeEMNqMfdZ1YbUdbOvvSjvuVB00kLuP/9mfeKaqR8kOCGGqmbuB2o6897ja13d8+tLq+OTWjTXbhiQ7AKq9pTZn7Fo9D8c4nhOQ7IAQfOYfg7W8axnvCUl2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO99B7G1UzAchlwyAAAAAElFTkSuQmCC"/>
+    <g>
+      <path class="st3" d="M9.58,15.43c.17-.39.48-.71.85-.91"/>
+      <path class="st3" d="M11.34,14.61c.17-.38.55-.66.96-.69"/>
+      <path class="st3" d="M13.04,14.37c-.02-.1.09-.16.17-.21.13-.07.23-.17.36-.25s.26-.14.41-.12"/>
+      <path class="st3" d="M14.64,14.15c.22-.11.43-.21.66-.3"/>
+      <path class="st3" d="M16.6,14.23c.4-.13.82-.19,1.23-.17"/>
+      <path class="st3" d="M18.06,14.61l.88-.18"/>
+      <path class="st3" d="M19.37,15.25c.03-.06.09-.09.15-.11.1-.05.21-.1.31-.14.1-.05.21-.09.32-.09"/>
+      <path class="st3" d="M20.15,15.85c.16.26.41.46.7.55"/>
+      <path class="st3" d="M18.88,17.07c.06.23.25.42.48.48"/>
+      <path class="st3" d="M17.31,17.77c.28.3.57.58.89.83"/>
+      <path class="st3" d="M15.2,18.05c.04.24.21.46.44.54"/>
+      <path class="st3" d="M10.1,17.22c.12.34.36.63.67.82"/>
+    </g>
+  </g>
+  <g id="Layer_5">
+    <g>
+      <path class="st2" d="M38.16,16.06s-5.79-3.49-11.62-.43c0,0,.26,1.4,2.21,1.91s6.38.68,9.4-1.28"/>
+      <ellipse class="st4" cx="31.54" cy="16.11" rx="1.94" ry="1.4"/>
+      <path class="st1" d="M37.75,16.25s-1.77,1.25-4.89,1.49-5.55-.48-6-1.91"/>
+      <path class="st1" d="M37.86,16.12s-1.95,1.28-5.07,1.52-5.55-.48-6-1.91"/>
+    </g>
+    <g>
+      <path class="st2" d="M8.36,16.06s5.79-3.49,11.62-.43c0,0-.26,1.4-2.21,1.91s-6.38.68-9.4-1.28"/>
+      <ellipse class="st4" cx="14.98" cy="16.11" rx="1.94" ry="1.4"/>
+      <path class="st1" d="M8.77,16.25s1.77,1.25,4.89,1.49,5.55-.48,6-1.91"/>
+      <path class="st1" d="M8.65,16.12s1.95,1.28,5.07,1.52,5.55-.48,6-1.91"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <path class="st5" d="M36.58,16.95c-.14.46-.6.73-1.02.95"/>
+      <path class="st5" d="M37.48,16.06c0-.62-.36-1.23-.89-1.56"/>
+      <path class="st5" d="M35.56,15.21c.05-.61-.37-1.23-.96-1.41"/>
+      <path class="st5" d="M33.65,14.83c0-.26-.24-.46-.45-.61-.19-.13-.38-.26-.56-.38"/>
+      <path class="st5" d="M32.41,14.42c.07-.06,0-.18-.05-.25-.17-.19-.34-.39-.5-.58"/>
+      <path class="st5" d="M30.13,14.25c-.2-.18-.44-.32-.69-.42"/>
+      <path class="st5" d="M29.79,14.61c-.11-.27-.4-.46-.7-.45"/>
+      <path class="st5" d="M28.67,14.56c-.13-.12-.28-.21-.44-.28"/>
+      <path class="st5" d="M28.41,14.83l-.55-.25"/>
+      <path class="st5" d="M27.76,14.97c-.3-.12-.59-.29-.85-.48"/>
+      <path class="st5" d="M27,15.27c-.3-.06-.58-.16-.85-.31"/>
+      <path class="st5" d="M27.48,16.79c-.02.27-.22.51-.48.59"/>
+      <path class="st5" d="M29.16,17.6c.13.35-.17.78-.54.8"/>
+      <path class="st5" d="M31.07,18.03c.1.31-.01.67-.26.87"/>
+    </g>
+    <g>
+      <path class="st5" d="M9.68,16.95c.14.46.6.73,1.02.95"/>
+      <path class="st5" d="M8.78,16.06c0-.62.36-1.23.89-1.56"/>
+      <path class="st5" d="M10.69,15.21c-.05-.61.37-1.23.96-1.41"/>
+      <path class="st5" d="M12.61,14.83c0-.26.24-.46.45-.61.19-.13.38-.26.56-.38"/>
+      <path class="st5" d="M13.85,14.42c-.07-.06,0-.18.05-.25.17-.19.34-.39.5-.58"/>
+      <path class="st5" d="M16.13,14.25c.2-.18.44-.32.69-.42"/>
+      <path class="st5" d="M16.47,14.61c.11-.27.4-.46.7-.45"/>
+      <path class="st5" d="M17.58,14.56c.13-.12.28-.21.44-.28"/>
+      <path class="st5" d="M17.85,14.83l.55-.25"/>
+      <path class="st5" d="M18.5,14.97c.3-.12.59-.29.85-.48"/>
+      <path class="st5" d="M19.26,15.27c.3-.06.58-.16.85-.31"/>
+      <path class="st5" d="M18.78,16.79c.02.27.22.51.48.59"/>
+      <path class="st5" d="M17.1,17.6c-.13.35.17.78.54.8"/>
+      <path class="st5" d="M15.19,18.03c-.1.31.01.67.26.87"/>
+    </g>
+  </g>
+  <g>
+    <path class="st0" d="M36.32,10.81s-5.28,3.94-10.01,0"/>
+    <path class="st0" d="M9.97,10.81s5.28,3.94,10.01,0"/>
+  </g>
+</svg>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <style>
+    /* Basic styling for the page */
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f7f7f7;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: orange;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background-color: red;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <form onsubmit="return validateform()" onreset="resetErrors()">
+    <h1>Login</h1>
+
+    <label for="username">Name:</label>
+    <input type="text" id="username" name="username" placeholder="Enter your name">
+    <span id="username-error" class="error"></span>
+
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+  </form>
+
+  <script>
+    function validateform() {
+      const name = document.getElementById("username").value.trim();
+      const nameErr = document.getElementById("username-error");
+      nameErr.textContent = ""; // Clear previous error message
+      let isValid = true;
+
+      // Check if name field is empty
+      if (name === "") {
+        nameErr.textContent = "Enter the name bruh"; // Show error message if empty
+        isValid = false;
+      }
+
+      // If form is valid, show alert and redirect
+      if (isValid) {
+        alert("Login Successful");
+        setTimeout(() => {
+          window.location.href = "index.html"; // Redirect after 1 second
+        }, 1000);
+      }
+
+      // Prevent form submission if invalid
+      return isValid;
+    }
+
+    // Function to clear error messages when form is reset
+    function resetErrors() {
+      const nameErr = document.getElementById("username-error");
+      nameErr.textContent = ""; // Clear the error message when form is reset
+    }
+  </script>
+
+</body>
+</html>

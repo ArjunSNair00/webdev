@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>login</title>
+    <style>
+      body{
+        justify-content: center;
+        text-align: center;
+        background: linear-gradient(to right,orange,red);
+      }
+      .login{
+        font-size: 3em;
+        background: linear-gradient(to left,orange,red);
+      }
+      .error{
+        color:red;
+        font-size: 20px;
+      }
+      .buttons{
+        gap:
+      }
+      input[type=submit],input[type=reset]{
+        font-size: large;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        background: linear-gradient(to left,orange,red);
+      }
+      input[type=username],input[type=password]{
+        font-size: large;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        background: linear-gradient(to left,orange,red);
+      }
+      .checkbox{
+      }
+      input[type=checkbox]{
+          font-size: small;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="login">
+    <form onsubmit="return validateForm()" onreset="resetForm()">
+      <h1>Login</h1>
+
+      <label for="username">Name:</label>
+      <input type="username" id="username" name="username" placeholder="Enter your name">
+      <span id="username-error" class="error"></span>
+
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password">
+      <span id="password-error" class="error"></span>
+
+      <br>
+      <div class="checkbox">
+        <div>
+          <input type="checkbox" id="agree" name="agree">
+          <label for="agree">I agree to the terms and conditions</label>
+          <span id="agree-error" class="error"></span>
+        </div>
+      </div>
+
+      <br>
+      <div class="buttons">
+      <input type="submit" value="submit">
+      <input type="reset" value="reset">
+      </div>
+
+    </form>
+  </div>
+  <script>
+    function validateForm(){
+    const username=document.getElementById("username").value.trim();
+    const password=document.getElementById("password").value;
+    const agree=document.getElementById("agree").checked;
+    const nameErr=document.getElementById("username-error");
+    const passErr=document.getElementById("password-error");
+    const agreeErr=document.getElementById("agree-error");
+    nameErr.textContent="";
+    passErr.textContent="";
+    agreeErr.textContent="";
+    let isValid=true;
+    if (username === "")
+    {
+      nameErr.textContent="Please enter your name";
+      isValid=false;
+    }
+    if (password === "" || password.length<6)
+    {
+      passErr.textContent="Please enter a 6 digit password";
+      isValid=false;
+    }
+    if (!agree)
+    {
+      agreeErr.textContent="Please agree to the terms and conditions";
+      isValid=false;
+    }
+    if (isValid)
+    {
+      alert("Login successfull");
+      setTimeout(()=>window.location.href="index.html",1000);
+    }
+    return false;
+    } 
+    function resetForm(){
+      document.getElementById("username-error").textContent="";
+      document.getElementById("password-error").textContent="";
+      document.getElementById("agree-error").textContent="";
+    }
+  </script>
+  </body>
+</html>

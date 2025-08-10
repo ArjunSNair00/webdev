@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>My Web Page</title>
+<style>
+/* Simple Bumblebee Theme */
+body {
+background-color: yellow; /*rgb(118, 167, 199)*/
+color: black;/*rgb(49, 21, 85)*/
+font-family: Arial, sans-serif;
+text-align: center;
+}
+</style>
+</head>
+<body>
+<h1>Welcome to Web Page</h1>
+<p>This is a simple web page</p>
+<h2>COLLEGE OF ENGINEERING KARUNAGAPALLY</h2>
+<form action="india.html" onsubmit="return validateForm()">
+<label for="name">Name: </label><br>
+<input type="text" id="name" required><br><br>
+<label for="pwd">Password:</label><br>
+<input type="password" id="pwd" required><br><br>
+<input type="submit" value="Submit">
+</form>
+<script>
+//Javascript form validation
+function validateForm(){
+let name = document.getElementById('name').value;
+let pwd= document.getElementById('pwd').value;
+//check if name field is empty
+if  (name.trim() === ""){
+alert("Name is required!");
+return false;
+}
+
+//check if Email field is empty
+if (pwd.trim() === "") {
+alert("Password is required!");
+return false;
+}
+//if all validations pass 
+alert("Form submitted successfully!");
+return true; //allow form submission
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logix – Recursive Coding Games</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #000000, #1a1a1a);
+      color: white;
+      padding: 2rem;
+    }
+    h1, p {
+      text-align: center;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .card {
+      background-color: #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: background 0.3s;
+    }
+    .card:hover {
+      background-color: #333;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .card p {
+      color: #ccc;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .button:hover {
+      background-color: #555;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Logix</h1>
+  <p>Recursive logic games to challenge your mind and teach you code.</p>
+
+  <div class="container">
+    <div class="card">
+      <h2>Recursive Maze</h2>
+      <p>Escape a looping maze by identifying recursion patterns.</p>
+      <a class="button" href="recursive_maze.html">Play</a>
+    </div>
+    <div class="card">
+      <h2>Function Forge</h2>
+      <p>Build functions using logic blocks to solve puzzles.</p>
+      <button class="button" onclick="alert('Launching Function Forge')">Play</button>
+    </div>
+    <div class="card">
+      <h2>EchoStack</h2>
+      <p>Debug recursive echoes before they overload the stack.</p>
+      <button class="button" onclick="alert('Launching EchoStack')">Play</button>
+    </div>
+    <div class="card">
+      <h2>Base Case</h2>
+      <p>Find your identity and base case to escape the recursion.</p>
+      <button class="button" onclick="alert('Launching Base Case')">Play</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Logix. Learn deeply. Think recursively.
+  </footer>
+</body>
+</html>

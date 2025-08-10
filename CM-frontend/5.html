@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<head>
+    <title>idk</title>
+    <style>
+        body{
+            font-size: 20px;
+        }
+        #e{
+            background-color: rgb(152, 86, 86);
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            margin-top: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div id="e">
+    <div id="hello"></div>
+    <button onclick="afunction()">click me</button>
+    <div>
+    <button onclick="inc()">+</button>
+    <button onclick="dec()">-</button>
+    <div id="n">0</div>
+    </div></div>
+
+<script>
+    console.log("Helloooo")
+    var x=5;
+    let z=5; //unique
+    z=12; //override let
+    const a=50;
+    console.log(x)
+    console.log(`maximum marks is ${a}`);
+    let name="arjun";
+    console.log(name);
+    num=2**4; //exponent
+    console.log(`IDK: ${num}`);
+    //window.alert("Hiiiiiii");
+    document.getElementById("hello").textContent="brrrrrrrrrr"; //or textContent=name;
+    let number=0;
+    function afunction()
+    {
+        document.getElementById("hello").innerHTML="hiiiiiii";
+    }
+    function inc()
+    {
+        number++;
+        document.getElementById("n").innerHTML=number;
+    }
+    function dec()
+    {
+        number--;
+        document.getElementById("n").innerHTML=number;
+    }
+</script>
+</body>
+</html>
